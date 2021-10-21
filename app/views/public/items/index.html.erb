@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 my-5">
+      <h1>商品一覧</h1>
+      <div class="container">
+        <div class="row">
+          <% @items.each do |item| %>
+          <%= link_to item_path(item) do %>
+          <div class="col-md-12 my-5">
+            <div>
+              <%= attachment_image_tag item, :image, :fill, 200, 200, format: 'jpg', fallback: "cake.png" %>
+            </div>
+            <div>
+              <%= item.name %>
+            </div>
+            <div>
+               ¥<%= item.add_tax_price.to_s(:delimited) %>
+            </div>
+          </div>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 offset-md-6 mb-4">
+      <%= paginate @items %>
+    </div>
+  </div>
+</div>
+</div>

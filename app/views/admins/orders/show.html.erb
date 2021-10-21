@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 my-5">
+      <h1>注文履歴詳細</h1>
+      <table>
+        <tr>
+          <th>購入者</th>
+          <td>
+            <%= link_to admins_customer_path(@order.customer_id) do %>
+              <%= @order.customer.last_name + @order.customer.first_name %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <th>注文日</th>
+          <td><%= @order.created_at.strftime("%Y/%m/%d") %></td>
+        </tr>
+        <tr>
+          <th>配送先</th>
+          <td>〒<%= @order.postal_code %><%= @order.address %><br><%= @order.name %></td>
+        </tr>
+        <tr>
+          <th>支払方法</th>
+          <td><%= @order.payment_method_i18n %></td>
+        </tr>
+      </table>
+      <div class="d-flex flex-row bd-highlight mt-3">
+        <div>
+          <table class="table table-bordered">
+            <tr>
+              <th>商品名</th>
+              <th>単価(税込)</th>
+              <th>数量</th>
+              <th>小計</th>
+            </tr>
+              <% @order.order_items.each do |t| %>
+                <tr>
+                  <td><%= t.item.name %></td>
+                  <td><%= t.item.add_tax_price %></td>
+                  <td><%= t.amount %></td>
+                  <td><%= (t.item.add_tax_price * t.amount) %></td>
+                </tr>
+              <% end %>
+          </table>
+        </div>
+        <div class="d-flex align-items-end ml-5">
+          <table>
+            <tr>
+              <th>商品合計</th>
+              <td><%= (@order.total_payment - @order.postage) %>円</td>
+            </tr>
+            <tr>
+              <th>送料</th>
+              <td><%= @order.postage %>円</td>
+            </tr>
+            <tr>
+              <th>請求合計金額</th>
+              <td><%= @order.total_payment %>円</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 my-5">
+      <h1>注文履歴詳細</h1>
+      <div class="d-flex flex-row bd-highlight mb-3">
+        <div>
+          <h5>注文情報</h5>
+          <table class="table table-bordered">
+            <tr>
+              <td>注文日</td>
+              <td><%= @order.created_at.strftime("%Y/%m/%d") %></td>
+            </tr>
+            <tr>
+              <td>配送先</td>
+              <td>
+                〒<%= @order.postal_code %><br>
+                <%= @order.address %><br>
+                <%= @order.name %>
+              </td>
+            </tr>
+            <tr>
+              <td>支払方法</td>
+              <td><%= @order.payment_method_i18n %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm-3 offset-sm-1">
+          <h5>請求情報</h5>
+          <table class="table table-bordered">
+            <tr>
+              <td>商品合計</td>
+              <td><%= (@order.total_payment - @order.postage) %></td>
+            </tr>
+            <tr>
+              <td>配送料</td>
+              <td><%= @order.postage %></td>
+            </tr>
+            <tr>
+              <th>ご請求額</th>
+              <td><%= @order.total_payment %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <h5>注文内容</h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <td>商品</td>
+            <td>単価（税込）</td>
+            <td>個数</td>
+            <td>小計</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_items.each do |t| %>
+            <tr>
+              <td><%= t.item.name %></td>
+              <td><%= t.item.add_tax_price %></td>
+              <td><%= t.amount %></td>
+              <td><%= (t.item.add_tax_price * t.amount) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
